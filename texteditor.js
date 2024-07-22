@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let fontData = {};
 
-    // Fetch font data from JSON file
     async function fetchFontData() {
         try {
             const response = await fetch('fonts.json');
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             option.textContent = font;
             fontFamilySelect.appendChild(option);
         }
-        // Trigger the font family change event to populate font weights for the first font
         if (fontFamilySelect.value) {
             populateFontWeights();
             updateFont();
@@ -47,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 option.textContent = variant;
                 fontWeightSelect.appendChild(option);
             }
-            // Trigger font weight change event to apply the selected weight
             if (fontWeightSelect.value) {
                 updateFont();
             }
@@ -63,14 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let fontUrl = '';
 
         if (fontData[selectedFont]) {
-            // Determine the font URL based on the selected weight and italic
             if (isItalic && fontData[selectedFont][`${selectedWeight}italic`]) {
                 fontUrl = fontData[selectedFont][`${selectedWeight}italic`];
             } else if (fontData[selectedFont][selectedWeight]) {
                 fontUrl = fontData[selectedFont][selectedWeight];
             }
 
-            // Apply the font URL and font styles
             if (fontUrl) {
                 const fontFace = new FontFace(selectedFont, `url(${fontUrl})`);
                 fontFace.load().then((loadedFont) => {
@@ -100,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveState() {
-        autoSaveState();  // Save state on manual save
+        autoSaveState();  
     }
 
     function loadState() {
@@ -108,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state) {
             editor.value = state.content;
             fontFamilySelect.value = state.fontFamily;
-            populateFontWeights(); // Populate font weights based on saved font family
+            populateFontWeights();
             fontWeightSelect.value = state.fontWeight;
             italicToggle.checked = state.isItalic;
             updateFont();
@@ -126,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         editor.style.fontStyle = '';
     }
 
-    // Event listeners
     fontFamilySelect.addEventListener('change', () => {
         populateFontWeights();
         updateFont();
@@ -139,6 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
     saveButton.addEventListener('click', saveState);
     resetButton.addEventListener('click', resetState);
 
-    // Initial load
-    fetchFontData().then(loadState);  // Fetch font data and then load the saved state
+    fetchFontData().then(loadState);  
 });
